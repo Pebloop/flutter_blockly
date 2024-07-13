@@ -1,4 +1,4 @@
-library flutter_blockly;
+library flutter_blockly_plus;
 
 export 'src/blockly_editor.dart'
     if (dart.library.js) 'src/blockly_editor_web.dart';

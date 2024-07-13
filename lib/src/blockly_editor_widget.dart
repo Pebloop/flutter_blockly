@@ -33,9 +33,7 @@ class BlocklyEditorWidget extends StatefulWidget {
     this.onChange,
     this.onDispose,
     this.style,
-    this.script,
-    this.editor,
-    this.packages,
+    this.addons
   });
 
   /// [BlocklyOptions interface](https://developers.google.com/blockly/reference/js/blockly.blocklyoptions_interface)
@@ -59,14 +57,8 @@ class BlocklyEditorWidget extends StatefulWidget {
   /// html render style
   final String? style;
 
-  /// html render script
-  final String? script;
-
-  /// html render editor
-  final String? editor;
-
-  /// html render packages
-  final String? packages;
+  /// All the extensions to add
+  final List<String>? addons;
 
   @override
   State<BlocklyEditorWidget> createState() => _BlocklyEditorWidgetState();
@@ -87,6 +79,7 @@ class _BlocklyEditorWidgetState extends State<BlocklyEditorWidget> {
       onInject: widget.onInject,
       onChange: widget.onChange,
       onDispose: widget.onDispose,
+      addons: widget.addons,
     );
 
     /// Configuration the WebViewController
@@ -106,9 +99,6 @@ class _BlocklyEditorWidgetState extends State<BlocklyEditorWidget> {
       ..loadHtmlString(
         editor.htmlRender(
           style: widget.style,
-          script: widget.script,
-          editor: widget.editor,
-          packages: widget.packages,
         ),
       );
   }

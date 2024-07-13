@@ -35,6 +35,7 @@ class BlocklyEditorWidget extends StatefulWidget {
     this.script,
     this.editor,
     this.packages,
+    this.addons,
   });
 
   /// [BlocklyOptions interface](https://developers.google.com/blockly/reference/js/blockly.blocklyoptions_interface)
@@ -68,6 +69,9 @@ class BlocklyEditorWidget extends StatefulWidget {
   /// is not used in the web
   final String? packages;
 
+  /// addons to inject in the editor
+  final List<String>? addons;
+
   @override
   State<BlocklyEditorWidget> createState() => _BlocklyEditorWidgetState();
 }
@@ -87,6 +91,7 @@ class _BlocklyEditorWidgetState extends State<BlocklyEditorWidget> {
       onInject: widget.onInject,
       onChange: widget.onChange,
       onDispose: widget.onDispose,
+      addons: widget.addons,
     );
 
     editor

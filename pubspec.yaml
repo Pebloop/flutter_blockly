@@ -1,9 +1,7 @@
-name: flutter_blockly
-description: A Flutter Blockly visual programming editor. The Blockly library adds an editor to your app that represents coding concepts as interlocking blocks.
+name: flutter_blockly_plus
+description: A fork of the flutter_blockly package with additional features and bug fixes.
 repository: https://github.com/mobile-blockly/flutter_blockly
-homepage: https://github.com/mobile-blockly/flutter_blockly
-issue_tracker: https://github.com/mobile-blockly/flutter_blockly/issues
-version: 1.4.5
+version: 0.0.13
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -24,12 +22,15 @@ flutter:
   plugin:
     platforms:
       android:
-        default_package: flutter_blockly
+        default_package: flutter_blockly_plus
       ios:
-        default_package: flutter_blockly
+        default_package: flutter_blockly_plus
       web:
-        default_package: flutter_blockly
+        default_package: flutter_blockly_plus
+  assets:
+    - assets/
 
 topics:
   - blockly
   - flutter-blockly
+  - flutter-blockly-plus

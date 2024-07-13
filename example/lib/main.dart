@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_blockly/flutter_blockly.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_blockly_plus/flutter_blockly_plus.dart';
 
 import 'content.dart';
 
@@ -72,7 +73,7 @@ class _WebViewAppState extends State<WebViewApp> {
   }
 
   void onChange(BlocklyData data) {
-    debugPrint('onChange: ${data.xml}\n${jsonEncode(data.json)}\n${data.dart}');
+    debugPrint('onChange: ${data.xml}\n${jsonEncode(data.json)}\n${data.lua}');
   }
 
   void onDispose(BlocklyData data) {
@@ -83,29 +84,40 @@ class _WebViewAppState extends State<WebViewApp> {
     debugPrint('onError: $err');
   }
 
+  Future<List<String>> loadAddons() async {
+    List<String> addons = [];
+
+    addons.add(await rootBundle.loadString("blocks/block_int_to_string.js"));
+
+    return addons;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocklyEditorWidget(
-          workspaceConfiguration: workspaceConfiguration,
-          initial: initialJson,
-          onInject: onInject,
-          onChange: onChange,
-          onDispose: onDispose,
-          onError: onError,
-          style: '.wrapper-web {top:58px;}',
+        child: FutureBuilder(
+          future: loadAddons(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return BlocklyEditorWidget(
+                workspaceConfiguration: workspaceConfiguration,
+                initial: initialXml,
+                onInject: onInject,
+                onChange: onChange,
+                onDispose: onDispose,
+                onError: onError,
+                addons: snapshot.data
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
         ),
-      ),
-      appBar: AppBar(
-        title: const Text('Title'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-      bottomNavigationBar: const SizedBox(height: 50),
+      )
     );
+
   }
 }

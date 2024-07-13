@@ -1,9 +1,7 @@
 /// The html render used for the WebViewWidget
 String htmlRender({
-  String? editor,
   String? script,
   String? style,
-  String? packages,
 }) {
   return '''
 <html>
@@ -13,9 +11,9 @@ String htmlRender({
 ${style ?? ''}
 </head>
 <body>
-  ${editor ?? ''}
-  ${packages ?? ''}
-  ${script ?? ''}
+  <div class='wrapper'>
+  <div id='blocklyEditor' class='wrap-container'></div>
+  </div>
 </body>
 </html>
 ''';

@@ -1,8 +1,4 @@
-/// The html script
-String htmlScript({String? script}) {
-  return '''
-<script>
-  const onCallback = (event, data) => {
+const onCallback = (event, data) => {
     if (window.FlutterWebView) {
       const dataString = JSON.stringify({event, data});
       window.FlutterWebView.postMessage(dataString);
@@ -29,7 +25,7 @@ String htmlScript({String? script}) {
       return false;
     }
   };
-  
+
   function nullToUndefined(data, defaultData) {
     if (data === null || typeof data === 'undefined') {
       return defaultData;
@@ -229,8 +225,3 @@ String htmlScript({String? script}) {
   }
 
   window.message = handleEvent;
-
-  ${script ?? ''}
-</script>
-''';
-}

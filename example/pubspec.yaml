@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_blockly:
+  flutter_blockly_plus:
     path: ../
   path_provider: ^2.1.1
   webview_flutter: ^4.4.2
@@ -21,3 +21,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+assets:
+  - assets/

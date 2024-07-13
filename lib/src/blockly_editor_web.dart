@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:html';
 
+import 'package:flutter/services.dart';
 import 'package:js/js_util.dart';
 
 import 'helpers/create_web_tag.dart';
@@ -34,6 +35,7 @@ class BlocklyEditor {
     this.onInject,
     this.onChange,
     this.onDispose,
+    this.addons,
   });
 
   /// [BlocklyOptions interface](https://developers.google.com/blockly/reference/js/blockly.blocklyoptions_interface)
@@ -70,6 +72,9 @@ class BlocklyEditor {
   /// ```
   final Function? onDispose;
 
+  /// addons to inject in the editor
+  final List<String>? addons;
+
   /// Create a default Blockly state
   BlocklyState _state = const BlocklyState();
 
@@ -96,6 +101,11 @@ class BlocklyEditor {
     _readOnly = workspaceConfiguration?.readOnly ??
         this.workspaceConfiguration?.readOnly ??
         false;
+
+    for (final addon in addons ?? []) {
+      runJS(addon);
+    }
+
     postData(
       event: 'init',
       data: {
@@ -237,22 +247,24 @@ class BlocklyEditor {
   /// ```dart
   /// editor.htmlRender();
   /// ```
-  void htmlRender({
+  Future<void> htmlRender({
     String? style,
     String? script,
     String? editor,
-  }) {
+  }) async {
     final Element? blocklyEditor = document.querySelector('#blocklyEditor');
 
     if (blocklyEditor == null) {
       document.body?.insertAdjacentHtml(
         'beforeend',
-        editor ?? html.htmlEditor(classList: ['wrapper-web']),
+        "<div class='wrapper wrapper-web'>"
+        "  <div id='blocklyEditor' class='wrap-container'></div>"
+        "</div>"
       );
 
       final scriptElement = createWebTag(
         tag: 'script',
-        content: html.htmlScript(script: script),
+        content: await rootBundle.loadString('packages/flutter_blockly_plus/assets/dart_wrapper.js'),
       );
       document.body?.insertAdjacentElement('beforeend', scriptElement);
 

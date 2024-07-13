@@ -651,6 +651,19 @@ const Map<String, dynamic> initialToolboxJson = {
         },
       ],
     },
+    {
+    'kind': 'category',
+    'name': 'Test',
+    'colour': 19,
+    'contents': [
+      {
+      'kind': 'block',
+      'blockxml': '''
+                  <block type="int_to_string">
+                  </block>
+                  '''
+      },
+    ]},
     {'kind': 'sep'},
     {
       'kind': 'category',

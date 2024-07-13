@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'html/html.dart' as html;
@@ -32,6 +33,7 @@ class BlocklyEditor {
     this.onInject,
     this.onChange,
     this.onDispose,
+    this.addons,
   });
 
   /// [BlocklyOptions interface](https://developers.google.com/blockly/reference/js/blockly.blocklyoptions_interface)
@@ -68,6 +70,9 @@ class BlocklyEditor {
   /// ```
   final Function? onDispose;
 
+  /// All the custom extensions to add
+  final List<String>? addons;
+
   /// The WebViewController used for the WebViewWidget
   /// ## Example
   /// ```dart
@@ -100,14 +105,49 @@ class BlocklyEditor {
       return;
     }
 
+    _init(workspaceConfiguration, initial);
+
+  }
+
+  Future<void> _init(BlocklyOptions? workspaceConfiguration, dynamic initial) async {
+
+
+    await blocklyController.runJavaScript(
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/blockly.min.js'),
+    );
+    await blocklyController.runJavaScript(
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/dart_compressed.js'),
+    );
+    await blocklyController.runJavaScript(
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/javascript_compressed.js'),
+    );
+    await blocklyController.runJavaScript(
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/lua_compressed.js'),
+    );
+    await blocklyController.runJavaScript(
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/php_compressed.js'),
+    );
+    await blocklyController.runJavaScript(
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/python_compressed.js'),
+    );
+    await blocklyController.runJavaScript(
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/dart_wrapper.js'),
+    );
+
+    for (final addon in addons ?? []) {
+      await blocklyController.runJavaScript(
+        addon,
+      );
+    }
+
     _readOnly = workspaceConfiguration?.readOnly ??
         this.workspaceConfiguration?.readOnly ??
         false;
-    postData(
+    await postData(
       event: 'init',
       data: {
         'workspaceConfiguration':
-            workspaceConfiguration ?? this.workspaceConfiguration,
+        workspaceConfiguration ?? this.workspaceConfiguration,
         'initial': initial ?? this.initial,
       },
     );
@@ -228,15 +268,9 @@ class BlocklyEditor {
   /// ```
   String htmlRender({
     String? style,
-    String? script,
-    String? editor,
-    String? packages,
   }) {
     return html.htmlRender(
       style: html.htmlStyle(style: style),
-      script: html.htmlScript(script: script),
-      editor: editor ?? html.htmlEditor(),
-      packages: html.htmlPackages(packages: packages),
     );
   }
 
