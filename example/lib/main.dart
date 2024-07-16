@@ -69,15 +69,13 @@ class _WebViewAppState extends State<WebViewApp> {
   });
 
   void onInject(BlocklyData data) {
-    debugPrint('onInject: ${data.xml}\n${jsonEncode(data.json)}');
+
   }
 
   void onChange(BlocklyData data) {
-    debugPrint('onChange: ${data.xml}\n${jsonEncode(data.json)}\n${data.lua}');
   }
 
   void onDispose(BlocklyData data) {
-    debugPrint('onDispose: ${data.xml}\n${jsonEncode(data.json)}');
   }
 
   void onError(dynamic err) {

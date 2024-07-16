@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 class BlocklyData {
   /// BlocklyData constructor
   const BlocklyData({
+    this.toolbox = const {},
     this.xml = '<xml xmlns="https://developers.google.com/blockly/xml"></xml>',
     this.json = const {},
     this.dart = '',
@@ -34,6 +35,10 @@ class BlocklyData {
 
   /// python code
   final String? python;
+
+  /// toolbox data
+  final Map<String, dynamic>? toolbox;
+
 
   /// isNotEmpty method
   bool isNotEmpty() {
@@ -68,5 +73,10 @@ class BlocklyData {
         js = data?['js'],
         lua = data?['lua'],
         php = data?['php'],
-        python = data?['python'];
+        python = data?['python'],
+        toolbox = {
+            'blocks': data?['blocks'],
+            'width': data?['width'],
+            'height': data?['height'],
+        };
 }

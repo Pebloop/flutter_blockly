@@ -111,28 +111,28 @@ class BlocklyEditor {
 
   Future<void> _init(BlocklyOptions? workspaceConfiguration, dynamic initial) async {
 
+    await blocklyController.runJavaScript(
+      await File('packages/flutter_blockly_plus/assets/blockly.min.js').readAsString(),
+    );
+    await blocklyController.runJavaScript(
+      await File('packages/flutter_blockly_plus/assets/dart_compressed.js').readAsString(),
+    );
+    await blocklyController.runJavaScript(
+      await File('packages/flutter_blockly_plus/assets/javascript_compressed.js').readAsString(),
+    );
+    await blocklyController.runJavaScript(
+      await File('packages/flutter_blockly_plus/assets/lua_compressed.js').readAsString(),
+    );
+    await blocklyController.runJavaScript(
+      await File('packages/flutter_blockly_plus/assets/php_compressed.js').readAsString(),
+    );
+    await blocklyController.runJavaScript(
+      await File('packages/flutter_blockly_plus/assets/python_compressed.js').readAsString(),
+    );
+    await blocklyController.runJavaScript(
+      await File('packages/flutter_blockly_plus/assets/dart_wrapper.js').readAsString(),
+    );
 
-    await blocklyController.runJavaScript(
-      await rootBundle.loadString('packages/flutter_blockly_plus/assets/blockly.min.js'),
-    );
-    await blocklyController.runJavaScript(
-      await rootBundle.loadString('packages/flutter_blockly_plus/assets/dart_compressed.js'),
-    );
-    await blocklyController.runJavaScript(
-      await rootBundle.loadString('packages/flutter_blockly_plus/assets/javascript_compressed.js'),
-    );
-    await blocklyController.runJavaScript(
-      await rootBundle.loadString('packages/flutter_blockly_plus/assets/lua_compressed.js'),
-    );
-    await blocklyController.runJavaScript(
-      await rootBundle.loadString('packages/flutter_blockly_plus/assets/php_compressed.js'),
-    );
-    await blocklyController.runJavaScript(
-      await rootBundle.loadString('packages/flutter_blockly_plus/assets/python_compressed.js'),
-    );
-    await blocklyController.runJavaScript(
-      await rootBundle.loadString('packages/flutter_blockly_plus/assets/dart_wrapper.js'),
-    );
 
     for (final addon in addons ?? []) {
       await blocklyController.runJavaScript(

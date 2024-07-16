@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:html';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_blockly_plus/src/types/blockly_toolbox_data.dart';
 import 'package:js/js_util.dart';
 
 import 'helpers/create_web_tag.dart';
@@ -78,6 +79,9 @@ class BlocklyEditor {
   /// Create a default Blockly state
   BlocklyState _state = const BlocklyState();
 
+  /// Toolbox data, for debugging purposes
+  BlocklyToolboxData _toolbox = BlocklyToolboxData();
+
   /// The Blockly toolbox
   ToolboxInfo? _toolboxConfig;
 
@@ -93,6 +97,10 @@ class BlocklyEditor {
   /// editor.init();
   /// ```
   void init({BlocklyOptions? workspaceConfiguration, dynamic initial}) {
+    _init(workspaceConfiguration, initial);
+  }
+
+  Future<void> _init(BlocklyOptions? workspaceConfiguration, dynamic initial) async {
     final Element? editor = document.querySelector('#blocklyEditor');
     if (_toolboxConfig != null || editor == null) {
       return;
@@ -101,6 +109,65 @@ class BlocklyEditor {
     _readOnly = workspaceConfiguration?.readOnly ??
         this.workspaceConfiguration?.readOnly ??
         false;
+
+
+    // check for script presence
+    if (document.querySelector('script[src="packages/flutter_blockly_plus/assets/blockly.min.js"]') == null) {
+      final scriptElementBlockly = createWebTag(
+        tag: 'script',
+        content: await rootBundle.loadString(
+            'packages/flutter_blockly_plus/assets/blockly.min.js'),
+      );
+      document.body?.insertAdjacentElement('beforeend', scriptElementBlockly);
+    }
+
+    if (document.querySelector('script[src="packages/flutter_blockly_plus/assets/javascript_compressed.js"]') == null) {
+      final scriptElementBlocklyJs = createWebTag(
+        tag: 'script',
+        content: await rootBundle.loadString('packages/flutter_blockly_plus/assets/javascript_compressed.js'),
+      );
+      document.body?.insertAdjacentElement('beforeend', scriptElementBlocklyJs);
+    }
+
+    if (document.querySelector('script[src="packages/flutter_blockly_plus/assets/dart_compressed.js"]') == null) {
+      final scriptElementBlocklyDart = createWebTag(
+        tag: 'script',
+        content: await rootBundle.loadString('packages/flutter_blockly_plus/assets/dart_compressed.js'),
+      );
+      document.body?.insertAdjacentElement('beforeend', scriptElementBlocklyDart);
+    }
+
+    if (document.querySelector('script[src="packages/flutter_blockly_plus/assets/lua_compressed.js"]') == null) {
+      final scriptElementBlocklyLua = createWebTag(
+        tag: 'script',
+        content: await rootBundle.loadString('packages/flutter_blockly_plus/assets/lua_compressed.js'),
+      );
+      document.body?.insertAdjacentElement('beforeend', scriptElementBlocklyLua);
+    }
+
+    if (document.querySelector('script[src="packages/flutter_blockly_plus/assets/php_compressed.js"]') == null) {
+      final scriptElementBlocklyPhp = createWebTag(
+        tag: 'script',
+        content: await rootBundle.loadString('packages/flutter_blockly_plus/assets/php_compressed.js'),
+      );
+      document.body?.insertAdjacentElement('beforeend', scriptElementBlocklyPhp);
+    }
+
+    if (document.querySelector('script[src="packages/flutter_blockly_plus/assets/python_compressed.js"]') == null) {
+      final scriptElementBlocklyPython = createWebTag(
+        tag: 'script',
+        content: await rootBundle.loadString('packages/flutter_blockly_plus/assets/python_compressed.js'),
+      );
+      document.body?.insertAdjacentElement('beforeend', scriptElementBlocklyPython);
+    }
+
+    if (document.querySelector('script[src="packages/flutter_blockly_plus/assets/dart_wrapper.js"]') == null) {
+      final scriptElementBlocklyWrapper = createWebTag(
+        tag: 'script',
+        content: await rootBundle.loadString('packages/flutter_blockly_plus/assets/dart_wrapper.js'),
+      );
+      document.body?.insertAdjacentElement('beforeend', scriptElementBlocklyWrapper);
+    }
 
     for (final addon in addons ?? []) {
       runJS(addon);
@@ -171,6 +238,7 @@ class BlocklyEditor {
           _onCallback(cb: onInject, arg: _getData());
           break;
         case 'onChange':
+          _toolbox = BlocklyToolboxData.fromJson(json['data']);
           _state = BlocklyState.fromJson(json['data']);
           _code = BlocklyCode.fromJson(json['data']);
           _onCallback(cb: onChange, arg: _getData());
@@ -262,11 +330,11 @@ class BlocklyEditor {
         "</div>"
       );
 
-      final scriptElement = createWebTag(
+      /*final scriptElement = createWebTag(
         tag: 'script',
         content: await rootBundle.loadString('packages/flutter_blockly_plus/assets/dart_wrapper.js'),
       );
-      document.body?.insertAdjacentElement('beforeend', scriptElement);
+      document.body?.insertAdjacentElement('beforeend', scriptElement);*/
 
       _styleElement.innerHtml = html.htmlStyle(style: style);
       document.head?.insertAdjacentElement('beforeend', _styleElement);
@@ -320,6 +388,7 @@ class BlocklyEditor {
   _getData() {
     final data = _state.toJson();
     data?.addAll(_code.toJson() ?? {});
+    data?.addAll(_toolbox.toJson() ?? {});
     return BlocklyData.fromJson(data);
   }
 

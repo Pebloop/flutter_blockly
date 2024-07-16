@@ -24,3 +24,9 @@ flutter:
 
 assets:
   - assets/
+  - packages/flutter_blockly_plus/assets/blockly.min.js
+  - packages/flutter_blockly_plus/assets/dart_compressed.js
+  - packages/flutter_blockly_plus/assets/lua_compressed.js
+  - packages/flutter_blockly_plus/assets/python_compressed.js
+  - packages/flutter_blockly_plus/assets/php_compressed.js
+  - packages/flutter_blockly_plus/assets/javascript_compressed.js
