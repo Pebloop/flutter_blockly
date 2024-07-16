@@ -73,6 +73,7 @@ class _WebViewAppState extends State<WebViewApp> {
   }
 
   void onChange(BlocklyData data) {
+    print(data);
   }
 
   void onDispose(BlocklyData data) {
@@ -85,8 +86,7 @@ class _WebViewAppState extends State<WebViewApp> {
   Future<List<String>> loadAddons() async {
     List<String> addons = [];
 
-    addons.add(await rootBundle.loadString("blocks/block_int_to_string.js"));
-
+    addons.add(await rootBundle.loadString("assets/blocks/block_int_to_string.js"));
     return addons;
   }
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_blockly_plus/src/types/blockly_toolbox_data.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'html/html.dart' as html;
@@ -83,6 +84,9 @@ class BlocklyEditor {
   /// Create a default Blockly state
   BlocklyState _state = const BlocklyState();
 
+  /// Toolbox data, for debugging purposes
+  BlocklyToolboxData _toolbox = BlocklyToolboxData();
+
   /// The Blockly toolbox
   ToolboxInfo? _toolboxConfig;
 
@@ -112,25 +116,25 @@ class BlocklyEditor {
   Future<void> _init(BlocklyOptions? workspaceConfiguration, dynamic initial) async {
 
     await blocklyController.runJavaScript(
-      await File('packages/flutter_blockly_plus/assets/blockly.min.js').readAsString(),
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/blockly.min.js'),
     );
     await blocklyController.runJavaScript(
-      await File('packages/flutter_blockly_plus/assets/dart_compressed.js').readAsString(),
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/dart_compressed.js'),
     );
     await blocklyController.runJavaScript(
-      await File('packages/flutter_blockly_plus/assets/javascript_compressed.js').readAsString(),
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/javascript_compressed.js'),
     );
     await blocklyController.runJavaScript(
-      await File('packages/flutter_blockly_plus/assets/lua_compressed.js').readAsString(),
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/lua_compressed.js'),
     );
     await blocklyController.runJavaScript(
-      await File('packages/flutter_blockly_plus/assets/php_compressed.js').readAsString(),
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/php_compressed.js'),
     );
     await blocklyController.runJavaScript(
-      await File('packages/flutter_blockly_plus/assets/python_compressed.js').readAsString(),
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/python_compressed.js'),
     );
     await blocklyController.runJavaScript(
-      await File('packages/flutter_blockly_plus/assets/dart_wrapper.js').readAsString(),
+      await rootBundle.loadString('packages/flutter_blockly_plus/assets/dart_wrapper.js'),
     );
 
 
@@ -189,6 +193,7 @@ class BlocklyEditor {
           _onCallback(cb: onInject, arg: _getData());
           break;
         case 'onChange':
+          _toolbox = BlocklyToolboxData.fromJson(json['data']);
           _state = BlocklyState.fromJson(json['data']);
           _code = BlocklyCode.fromJson(json['data']);
           _onCallback(cb: onChange, arg: _getData());
@@ -302,6 +307,7 @@ class BlocklyEditor {
   _getData() {
     final data = _state.toJson();
     data?.addAll(_code.toJson() ?? {});
+    data?.addAll(_toolbox.toJson() ?? {});
     return BlocklyData.fromJson(data);
   }
 
