@@ -35,6 +35,7 @@ class BlocklyEditor {
     this.onChange,
     this.onDispose,
     this.addons,
+    this.debug = false,
   });
 
   /// [BlocklyOptions interface](https://developers.google.com/blockly/reference/js/blockly.blocklyoptions_interface)
@@ -73,6 +74,9 @@ class BlocklyEditor {
 
   /// All the custom extensions to add
   final List<String>? addons;
+
+  /// Is blockly launched in debug mode ?
+  final bool debug;
 
   /// The WebViewController used for the WebViewWidget
   /// ## Example
@@ -150,6 +154,7 @@ class BlocklyEditor {
     await postData(
       event: 'init',
       data: {
+        'debug': debug,
         'workspaceConfiguration':
         workspaceConfiguration ?? this.workspaceConfiguration,
         'initial': initial ?? this.initial,

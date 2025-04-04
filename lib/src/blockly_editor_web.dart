@@ -37,6 +37,7 @@ class BlocklyEditor {
     this.onChange,
     this.onDispose,
     this.addons,
+    this.debug = false,
   });
 
   /// [BlocklyOptions interface](https://developers.google.com/blockly/reference/js/blockly.blocklyoptions_interface)
@@ -75,6 +76,9 @@ class BlocklyEditor {
 
   /// addons to inject in the editor
   final List<String>? addons;
+
+  /// Blockly editor debug mode
+  final bool debug;
 
   /// Create a default Blockly state
   BlocklyState _state = const BlocklyState();
@@ -176,6 +180,7 @@ class BlocklyEditor {
     postData(
       event: 'init',
       data: {
+        'debug': debug,
         'workspaceConfiguration':
             workspaceConfiguration ?? this.workspaceConfiguration,
         'initial': initial ?? this.initial,

@@ -1,7 +1,7 @@
 name: flutter_blockly_plus
 description: A fork of the flutter_blockly package with additional features and bug fixes.
 repository: https://github.com/mobile-blockly/flutter_blockly
-version: 1.2.0
+version: 2.0.0
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -22,11 +22,13 @@ flutter:
   plugin:
     platforms:
       android:
-        default_package: flutter_blockly_plus
+        package: com.example.flutter_blockly_plus
+        pluginClass: FlutterBlocklyPlusPlugin
       ios:
-        default_package: flutter_blockly_plus
+        pluginClass: FlutterBlocklyPlusPlugin
       web:
-        default_package: flutter_blockly_plus
+        pluginClass: flutter_blockly_plus
+        fileName: flutter_blockly_plus.dart
   assets:
     - assets/
     - assets/blockly.min.js

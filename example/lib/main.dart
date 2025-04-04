@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blockly_plus/flutter_blockly_plus.dart';
@@ -73,7 +71,7 @@ class _WebViewAppState extends State<WebViewApp> {
   }
 
   void onChange(BlocklyData data) {
-    print(data);
+    print("test" + data.toolbox.toString());
   }
 
   void onDispose(BlocklyData data) {
@@ -105,7 +103,8 @@ class _WebViewAppState extends State<WebViewApp> {
                 onChange: onChange,
                 onDispose: onDispose,
                 onError: onError,
-                addons: snapshot.data
+                addons: snapshot.data,
+                debug: false
               );
             } else {
               return Center(

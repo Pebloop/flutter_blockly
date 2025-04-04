@@ -33,7 +33,8 @@ class BlocklyEditorWidget extends StatefulWidget {
     this.onChange,
     this.onDispose,
     this.style,
-    this.addons
+    this.addons,
+    this.debug = false,
   });
 
   /// [BlocklyOptions interface](https://developers.google.com/blockly/reference/js/blockly.blocklyoptions_interface)
@@ -60,6 +61,9 @@ class BlocklyEditorWidget extends StatefulWidget {
   /// All the extensions to add
   final List<String>? addons;
 
+  /// Is Blockly in debug mode ?
+  final bool debug;
+
   @override
   State<BlocklyEditorWidget> createState() => _BlocklyEditorWidgetState();
 }
@@ -80,6 +84,7 @@ class _BlocklyEditorWidgetState extends State<BlocklyEditorWidget> {
       onChange: widget.onChange,
       onDispose: widget.onDispose,
       addons: widget.addons,
+      debug: widget.debug,
     );
 
     /// Configuration the WebViewController

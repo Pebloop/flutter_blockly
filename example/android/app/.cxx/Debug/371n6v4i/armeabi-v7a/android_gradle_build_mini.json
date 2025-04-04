@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "C:\\tools\\flutter\\packages\\flutter_tools\\gradle\\src\\main\\groovy\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\pebloop\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "C:\\Users\\pebloop\\Documents\\git\\epitech\\ESP\\flutter_blockly_plus\\example\\android\\app\\.cxx\\Debug\\371n6v4i\\armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\pebloop\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "C:\\Users\\pebloop\\Documents\\git\\epitech\\ESP\\flutter_blockly_plus\\example\\android\\app\\.cxx\\Debug\\371n6v4i\\armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

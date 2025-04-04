@@ -58,9 +58,8 @@ class BlocklyToolboxData {
   }
 
   factory BlocklyToolboxData.fromJson(Map<String, dynamic> data) {
-    print(data);
     return BlocklyToolboxData(
-      blocks: data['toolbox']['blocks'] != null ? (data['toolbox']['blocks'] as List).map((e) => BlocklyToolboxBlocksData.fromJson(e)).toList() : null,
+      blocks: (data['toolbox']['blocks'] as List).map((e) => BlocklyToolboxBlocksData.fromJson(e)).toList(),
       width: data['toolbox']['width'] ?? 0,
       height: data['toolbox']['height'] ?? 0,
     );
